@@ -1,10 +1,7 @@
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import sys
 import os
-
-JSON_KEY = "./data-oasis-413411-875214e7d6b8.json"
-SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1tLw9LEIl0LtbG6y6EjFa41_dwoLXXYlpVNLfxlAkX1Y"
+from oauth2client.service_account import ServiceAccountCredentials
+import gspread
+from credentials import spreadsheet_key, spreadsheet_url
 
 start_cell = None
 ignore_cell = None
@@ -14,14 +11,15 @@ def get_full_path(path):
 
 def get_spreadsheet_by_url(url):
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name(get_full_path(JSON_KEY), scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name(get_full_path(spreadsheet_key), scope)
     client = gspread.authorize(creds)
     spreadsheet = client.open_by_url(url)
     return spreadsheet
 
 def get_sheet_by_name(spreadsheet, name):
     for worksheet in spreadsheet.worksheets():
-        if name in worksheet.title.lower():
+        name_parts = name.split("_")
+        if name_parts[0] in worksheet.title.lower() or name_parts[1] in worksheet.title.lower():
             return worksheet
     return None
 
@@ -58,7 +56,7 @@ def update_field_by_name(sheet_name, row, column, text):
     print(f"[UPDATE]: {sheet_name}, {row}:{column} = {text}")
     row = int(row)
     column = int(column)
-    spreadsheet = get_spreadsheet_by_url(SPREADSHEET_URL)
+    spreadsheet = get_spreadsheet_by_url(spreadsheet_url)
     sheet = get_sheet_by_name(spreadsheet, sheet_name)
     cell = get_cell(sheet, row, column)
     if len(text) == 0:
@@ -69,16 +67,10 @@ def update_field_by_name(sheet_name, row, column, text):
         format_cell(sheet, cell)
 
 def run():
-    if len(sys.argv) != 4:
-        row = int(input("Insert row: "))
-        column = int(input("Insert col: "))
-        text = input("Insert text: ")
-    else:
-        row = int(sys.argv[1])
-        column = int(sys.argv[2])
-        text = sys.argv[3]
+    row = int(input("Insert row: "))
+    column = int(input("Insert col: "))
+    text = input("Insert text: ")
     update_field_by_name("test", row, column, text)
-
     #from IPython import embed; embed()
 
 

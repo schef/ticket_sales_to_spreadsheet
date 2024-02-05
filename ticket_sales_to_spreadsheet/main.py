@@ -1,13 +1,16 @@
-from ticket_sales_to_spreadsheet.download import download_seats_by_name
-from ticket_sales_to_spreadsheet.compare import compare_last_two_seats_by_name
-from ticket_sales_to_spreadsheet.online import update_field_by_name
+from ticket_sales_to_spreadsheet.common import write_seats_json
+from ticket_sales_to_spreadsheet.download_seats import download_seats_from_url
+from ticket_sales_to_spreadsheet.diff_seats import get_diff_from_last_two_seats_by_show_name
+from ticket_sales_to_spreadsheet.spreadsheet_seats import update_field_by_name
+from credentials import show_names, download_path
 
 def run():
-    for name in ["bela", "botti"]:
-        download_seats_by_name(name)
-        diffs = compare_last_two_seats_by_name(name)
+    for show_name, url in show_names.items():
+        seats = download_seats_from_url(url)
+        write_seats_json(seats, show_name, download_path)
+        diffs = get_diff_from_last_two_seats_by_show_name(show_name, download_path)
         for diff in diffs:
-            update_field_by_name(name, diff.row, diff.column, "1")
+            update_field_by_name(show_name, diff.row, diff.column, "1")
 
 if __name__ == "__main__":
     run()
