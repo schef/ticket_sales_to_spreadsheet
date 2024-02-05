@@ -6,8 +6,8 @@ if [ $# != 0 ]; then
     exit 1
 fi
 
-# clone systemd timer entries
-cp ./ticket_sales_to_spreadsheet.* ~/.config/systemd/
+# clone systemd timer entrie
+cp ./ticket_sales_to_spreadsheet.* ~/.config/systemd/user
 
 # force reload of timers, immediately start and enable
 systemctl --user daemon-reload
