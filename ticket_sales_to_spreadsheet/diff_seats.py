@@ -31,7 +31,6 @@ def diff_last_two_files(show_name_files):
 
 def get_diff_from_last_two_seats_by_show_name(show_name, download_path):
     show_name_files = get_show_name_files(show_name, download_path)
-    print(show_name_files)
     return diff_last_two_files(show_name_files)
 
 def run():
