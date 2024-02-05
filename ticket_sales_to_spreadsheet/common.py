@@ -20,5 +20,5 @@ def get_timestamp():
 
 def write_seats_json(seats, show_name, download_path = "."):
     filename = f"{download_path}/{show_name}_{get_timestamp()}.json"
-    fullpath = get_full_path(filename)
+    fullpath = f"{get_path_of_current_file(__file__)}/{filename}"
     write_json(fullpath, [s.dict() for s in seats])
