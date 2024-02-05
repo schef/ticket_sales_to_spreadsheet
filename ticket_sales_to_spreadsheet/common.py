@@ -19,4 +19,6 @@ def get_timestamp():
     return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
 def write_seats_json(seats, show_name, download_path = "."):
-    write_json(f"{download_path}/{show_name}_{get_timestamp()}.json", [s.dict() for s in seats])
+    filename = f"{download_path}/{show_name}_{get_timestamp()}.json"
+    fullpath = get_full_path(filename)
+    write_json(fullpath, [s.dict() for s in seats])

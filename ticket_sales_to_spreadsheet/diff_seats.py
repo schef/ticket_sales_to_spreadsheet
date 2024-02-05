@@ -1,6 +1,7 @@
 import json
 import os
 from ticket_sales_to_spreadsheet.seat import Seat
+from common import get_full_path
 
 def get_seats_from_filename(filename):
     seats = []
@@ -13,9 +14,9 @@ def get_seats_from_filename(filename):
 
 def get_show_name_files(show_name, download_path):
     files = []
-    for file in os.listdir(download_path):
+    for file in os.listdir(get_full_path(download_path)):
         if file.startswith(show_name) and file.endswith(".json"):
-            files.append(os.path.join(download_path, file))
+            files.append(os.path.join(get_full_path(download_path), file))
     return files
 
 def diff_two_seats(seats1, seats2):
