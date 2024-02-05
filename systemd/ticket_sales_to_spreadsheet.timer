@@ -1,0 +1,10 @@
+[Unit]
+Description=Python Ticket Sales To Spreadsheet Script Timer
+
+[Timer]
+OnBootSec=60s
+OnUnitActiveSec=3600s
+AccuracySec=1
+
+[Install]
+WantedBy=timers.target

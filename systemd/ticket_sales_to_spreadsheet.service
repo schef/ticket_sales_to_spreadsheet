@@ -1,0 +1,12 @@
+[Unit]
+Description=Python Ticket Sales To Spreadsheet Script
+
+[Service]
+Type=oneshot
+Environment=PYTHONUNBUFFERED=true
+ExecStart=/usr/bin/python ~/.local/bin/ticket-sales-to-spreadsheet
+KillMode=process
+TimeoutSec=120s
+
+[Install]
+WantedBy=multi-user.target
