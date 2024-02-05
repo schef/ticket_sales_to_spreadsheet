@@ -2,7 +2,7 @@ from ticket_sales_to_spreadsheet.common import write_seats_json
 from ticket_sales_to_spreadsheet.download_seats import download_seats_from_url
 from ticket_sales_to_spreadsheet.diff_seats import get_diff_from_last_two_seats_by_show_name
 from ticket_sales_to_spreadsheet.spreadsheet_seats import update_field_by_name
-from credentials import show_names, download_path
+from ticket_sales_to_spreadsheet.credentials import show_names, download_path
 
 def run():
     for show_name, url in show_names.items():

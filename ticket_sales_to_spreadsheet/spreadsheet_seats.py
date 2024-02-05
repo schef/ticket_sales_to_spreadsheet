@@ -1,7 +1,7 @@
 import os
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
-from credentials import spreadsheet_key, spreadsheet_url
+from ticket_sales_to_spreadsheet.credentials import spreahsheet_key_json_filename, spreahsheet_url
 
 start_cell = None
 ignore_cell = None
@@ -11,7 +11,7 @@ def get_full_path(path):
 
 def get_spreadsheet_by_url(url):
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name(get_full_path(spreadsheet_key), scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name(get_full_path(spreahsheet_key_json_filename), scope)
     client = gspread.authorize(creds)
     spreadsheet = client.open_by_url(url)
     return spreadsheet
@@ -19,7 +19,7 @@ def get_spreadsheet_by_url(url):
 def get_sheet_by_name(spreadsheet, name):
     for worksheet in spreadsheet.worksheets():
         name_parts = name.split("_")
-        if name_parts[0] in worksheet.title.lower() or name_parts[1] in worksheet.title.lower():
+        if name_parts[0] in worksheet.title.lower():
             return worksheet
     return None
 
@@ -56,7 +56,7 @@ def update_field_by_name(sheet_name, row, column, text):
     print(f"[UPDATE]: {sheet_name}, {row}:{column} = {text}")
     row = int(row)
     column = int(column)
-    spreadsheet = get_spreadsheet_by_url(spreadsheet_url)
+    spreadsheet = get_spreadsheet_by_url(spreahsheet_url)
     sheet = get_sheet_by_name(spreadsheet, sheet_name)
     cell = get_cell(sheet, row, column)
     if len(text) == 0:
