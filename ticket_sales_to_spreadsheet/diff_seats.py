@@ -1,7 +1,7 @@
 import json
 import os
 from ticket_sales_to_spreadsheet.seat import Seat
-from common import get_full_path
+from ticket_sales_to_spreadsheet.common import get_full_path
 
 def get_seats_from_filename(filename):
     seats = []
