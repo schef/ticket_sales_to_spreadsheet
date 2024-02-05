@@ -1,24 +1,6 @@
 import json
 import os
-from ticket_sales_to_spreadsheet.seat import Seat
-from ticket_sales_to_spreadsheet.common import get_full_path, get_path_of_current_file
-
-def get_seats_from_filename(filename):
-    seats = []
-    with open(filename) as user_file:
-        content = user_file.read()
-        json_obj = json.loads(content)
-        for seat in json_obj:
-            seats.append(Seat(**seat))
-        return seats
-
-def get_show_name_files(show_name, download_path):
-    files = []
-    full_path = f"{get_path_of_current_file(__file__)}/{download_path}"
-    for file in os.listdir():
-        if file.startswith(show_name) and file.endswith(".json"):
-            files.append(os.path.join(full_path, file))
-    return files
+from ticket_sales_to_spreadsheet.common import read_seats_from_json, get_show_name_files
 
 def diff_two_seats(seats1, seats2):
     diff1 = []
@@ -40,8 +22,8 @@ def diff_last_two_files(show_name_files):
     diff = []
     if len(show_name_files) >= 2:
         show_name_files.sort(reverse = True)
-        seat2 = get_seats_from_filename(show_name_files[0])
-        seat1 = get_seats_from_filename(show_name_files[1])
+        seat2 = read_seats_from_json(show_name_files[0])
+        seat1 = read_seats_from_json(show_name_files[1])
         diff = diff_two_seats(seat1, seat2)
     else:
         print("[DIFF]: Error, only one file")
@@ -49,6 +31,7 @@ def diff_last_two_files(show_name_files):
 
 def get_diff_from_last_two_seats_by_show_name(show_name, download_path):
     show_name_files = get_show_name_files(show_name, download_path)
+    print(show_name_files)
     return diff_last_two_files(show_name_files)
 
 def run():

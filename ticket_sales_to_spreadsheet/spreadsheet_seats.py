@@ -1,4 +1,3 @@
-import os
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 from ticket_sales_to_spreadsheet.credentials import spreahsheet_key_json_filename, spreahsheet_url
@@ -6,12 +5,9 @@ from ticket_sales_to_spreadsheet.credentials import spreahsheet_key_json_filenam
 start_cell = None
 ignore_cell = None
 
-def get_full_path(path):
-    return os.path.realpath(os.path.expanduser(path))
-
 def get_spreadsheet_by_url(url):
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name(get_full_path(spreahsheet_key_json_filename), scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name(spreahsheet_key_json_filename, scope)
     client = gspread.authorize(creds)
     spreadsheet = client.open_by_url(url)
     return spreadsheet
