@@ -72,6 +72,7 @@ def send_message(driver, text):
     actions.click()
     actions.send_keys(text).perform()
     actions.send_keys(Keys.RETURN).perform()
+    time.sleep(1)
     #from IPython import embed; embed()
 
 def send(message):
