@@ -62,6 +62,11 @@ def update_field_by_name(sheet_name, row, column, text):
         update_cell(sheet, cell, "1")
         format_cell(sheet, cell)
 
+def get_count(sheet_name):
+    spreadsheet = get_spreadsheet_by_url(spreahsheet_url)
+    sheet = get_sheet_by_name(spreadsheet, sheet_name)
+    return sheet.acell('AQ22').value
+
 def run():
     row = int(input("Insert row: "))
     column = int(input("Insert col: "))
