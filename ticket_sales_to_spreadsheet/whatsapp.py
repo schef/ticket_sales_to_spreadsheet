@@ -76,7 +76,7 @@ def send_message(driver, text):
     #from IPython import embed; embed()
 
 def send(message):
-    driver = get_driver()
+    driver = get_driver(headless=True)
     login(driver)
     open_chat(driver, "New Super Horvat Bros.")
     send_message(driver, message)

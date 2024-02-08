@@ -14,7 +14,7 @@ def run():
             update_field_by_name(show_name, diff.row, diff.column, "1")
         if len(diffs) > 0:
             number = get_count(show_name)
-            send(f"[BOT]: {show_name} = {number}")
+            send(f"[BOT]: {show_name} = {number} (novih: {len(diffs)})")
 
 if __name__ == "__main__":
     run()

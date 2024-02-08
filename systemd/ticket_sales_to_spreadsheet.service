@@ -6,7 +6,7 @@ Type=oneshot
 Environment=PYTHONUNBUFFERED=true
 ExecStart=/home/schef/.local/bin/ticket-sales-to-spreadsheet
 KillMode=process
-TimeoutSec=120s
+TimeoutSec=600s
 
 [Install]
 WantedBy=multi-user.target
