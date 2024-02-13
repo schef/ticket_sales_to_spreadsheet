@@ -48,19 +48,29 @@ def format_cell(sheet, cell, clear = False):
 def update_cell(sheet, cell, text):
     sheet.update_cell(cell.row, cell.col, value=text)
 
-def update_field_by_name(sheet_name, row, column, text):
+def update_field_by_name(sheet_name, row, column, text, check_diff=False):
     print(f"[UPDATE]: {sheet_name}, {row}:{column} = {text}")
     row = int(row)
     column = int(column)
     spreadsheet = get_spreadsheet_by_url(spreahsheet_url)
     sheet = get_sheet_by_name(spreadsheet, sheet_name)
     cell = get_cell(sheet, row, column)
-    if len(text) == 0:
-        update_cell(sheet, cell, "")
-        format_cell(sheet, cell, clear=True)
+    if check_diff:
+        if cell.value != text:
+            print(f"[UPDATE]: check_diff {sheet_name}, {row}:{column} = {text}")
+            if len(text) == 0:
+                update_cell(sheet, cell, "")
+                format_cell(sheet, cell, clear=True)
+            else:
+                update_cell(sheet, cell, "1")
+                format_cell(sheet, cell)
     else:
-        update_cell(sheet, cell, "1")
-        format_cell(sheet, cell)
+        if len(text) == 0:
+            update_cell(sheet, cell, "")
+            format_cell(sheet, cell, clear=True)
+        else:
+            update_cell(sheet, cell, "1")
+            format_cell(sheet, cell)
 
 def get_count(sheet_name):
     spreadsheet = get_spreadsheet_by_url(spreahsheet_url)

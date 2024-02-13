@@ -12,7 +12,8 @@ def run():
         write_seats_json(seats, show_name, download_path)
         diffs = get_diff_from_last_two_seats_by_show_name(show_name, download_path)
         for e,diff in enumerate(diffs):
-            update_field_by_name(show_name, diff.row, diff.column, "1")
+            text = "1" if diff.occupied else ""
+            update_field_by_name(show_name, diff.row, diff.column, text)
             if e % 10 == 9:
                 print("sleep 60s for google api")
                 time.sleep(60)
@@ -20,9 +21,10 @@ def run():
             number = get_count(show_name)
             details = []
             for diff in diffs:
-                details.append(f" - {int(diff.row):02d}:{int(diff.column):02d}")
+                occupied = "+" if diff.occupied else "-"
+                details.append(f" {occupied} {int(diff.row):02d}:{int(diff.column):02d}")
             details_text = "\n".join(details)
-            send(f"[BOT]: {show_name} = {number} (novih: {len(diffs)})\n{details_text}")
+            send(f"[BOT]: {show_name} = {number} (promjena: {len(diffs)})\n{details_text}")
 
 if __name__ == "__main__":
     run()
